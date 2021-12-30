@@ -36,4 +36,11 @@ expect_false(dt2[, is.factor(a)])
 expect_false(dt2[, is.factor(b)])
 rm(dt2)
 
+# Scenario: predicate function returns FALSE for all columns
+dt3 = data.table::copy(dt_check)
+expect_message(
+  setj_if(dt3, is.factor, as.character)
+)
+rm(dt3)
+
 rm(dt_check)
