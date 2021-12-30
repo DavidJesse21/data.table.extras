@@ -6,7 +6,7 @@
 #' column name must match.
 #'
 #' @name setj
-
+NULL
 
 
 #' @rdname setj
@@ -89,11 +89,36 @@ setj_if = function(DT, .p, .f, ...) {
   for (j in cols) {
     set(DT, j = j, value = .f(DT[[j]], ...))
   }
+
+  invisible()
 }
 
 
 
-#
-# setj_grep = function(DT, pattern, .f, ...) {
-#
-# }
+#' @rdname setj
+#'
+#' @importFrom checkmate assert_data_table assert_function assert_string
+#' @importFrom data.table set
+#'
+#' @export
+setj_grep = function(DT, pattern, .f, ...) {
+  assert_data_table(DT)
+  assert_string(pattern)
+  assert_function(.f)
+
+  cols = grep(pattern, colnames(DT), value = TRUE)
+
+  if (is_empty(cols)) {
+    message(
+      "The supplied pattern does not match any column name in your data.table."
+    )
+  } else {
+    for (j in cols) {
+      set(DT, j = j, value = .f(DT[[j]], ...))
+    }
+  }
+
+  invisible()
+}
+
+

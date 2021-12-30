@@ -4,11 +4,14 @@
 \alias{setj}
 \alias{setj_at}
 \alias{setj_if}
+\alias{setj_grep}
 \title{Conditional column manipulation by reference}
 \usage{
 setj_at(DT, cols, .f, ...)
 
 setj_if(DT, .p, .f, ...)
+
+setj_grep(DT, pattern, .f, ...)
 }
 \description{
 These functions manipulate existing columns of your \code{data.table} by reference
