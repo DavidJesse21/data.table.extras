@@ -5,8 +5,34 @@
 #' based on a selection of columns, a predicate function or a regex pattern that the
 #' column name must match.
 #'
+#' @details
+#' \code{setj_at()} takes an integer (!) vector of column indices or a character vector of
+#' column names as input for \code{cols} and applies \code{.f} on the corresponding columns.
+#' If you supply indices or column names which don't exist in your \code{data.table}
+#' you will get an informative message.
+#'
+#' \code{setj_if()} takes a predicate function as input for \code{.p}.
+#' The function \code{.f} will then be applied to those columns for which
+#' \code{.p} returns TRUE.
+#' If the predicate function returns \code{FALSE} for all columns you will get an
+#' informative message.
+#'
+#' \code{setj_grep()} manipulates columns based on regular expression pattern matches.
+#' For that you need to pass a single regex pattern to the \code{pattern} argument.
+#' If the pattern doesn't match any of your \code{data.table} columns you will get
+#' an informative message.
+#'
+#' @param DT A \code{data.table}
+#' @param .f A function that will be applied by reference to the matching columns
+#' @param ... Additional function arguments you want to supply to \code{.f}
+#' @param cols A vector of integer column indices or character column names
+#' @param .p A predicate function that will be applied to all columns and returns
+#'    a logical vector
+#' @param pattern A regular expression pattern as used by \code{grep}
+#'
 #' @name setj
 NULL
+
 
 
 #' @rdname setj
@@ -86,8 +112,15 @@ setj_if = function(DT, .p, .f, ...) {
   ptrue = vapply(DT, .p, logical(1L))
   cols = names(which(ptrue))
 
-  for (j in cols) {
-    set(DT, j = j, value = .f(DT[[j]], ...))
+  if (is_empty(cols)) {
+    message(
+      "`.p` returns FALSE for all columns. ",
+      "Your data.table remains unchanged."
+    )
+  } else {
+    for (j in cols) {
+      set(DT, j = j, value = .f(DT[[j]], ...))
+    }
   }
 
   invisible()
@@ -110,7 +143,8 @@ setj_grep = function(DT, pattern, .f, ...) {
 
   if (is_empty(cols)) {
     message(
-      "The supplied pattern does not match any column name in your data.table."
+      "The supplied pattern does not match any column names. ",
+      "Your data.table remains unchanged."
     )
   } else {
     for (j in cols) {
