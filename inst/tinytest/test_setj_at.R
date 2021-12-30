@@ -13,9 +13,6 @@ expect_error(
 expect_error(
   setj_at(dt_check, c(1, 2, 3), function(j) j + 1)
 )
-expect_error(
-  setj_at(dt_check, 1:3, function(x) x + 1)
-)
 
 # Test basic functionality
 dt1 = data.table::copy(dt_check)
@@ -41,3 +38,5 @@ expect_message(
 expect_message(
   setj_at(data.table::copy(dt_check), c("a", "e"), function(j) j + 1)
 )
+
+rm(dt_check)

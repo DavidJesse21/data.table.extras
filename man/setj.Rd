@@ -3,9 +3,12 @@
 \name{setj}
 \alias{setj}
 \alias{setj_at}
+\alias{setj_if}
 \title{Conditional column manipulation by reference}
 \usage{
 setj_at(DT, cols, .f, ...)
+
+setj_if(DT, .p, .f, ...)
 }
 \description{
 These functions manipulate existing columns of your \code{data.table} by reference

@@ -5,12 +5,15 @@
 #' based on a selection of columns, a predicate function or a regex pattern that the
 #' column name must match.
 #'
+#' @name setj
+
+
+
+#' @rdname setj
+#'
 #' @importFrom checkmate assert_data_table test_character test_integer assert_function
 #' @importFrom data.table set
 #'
-#' @name setj
-
-#' @rdname setj
 #' @export
 setj_at = function(DT, cols, .f, ...) {
   assert_data_table(DT)
@@ -23,7 +26,8 @@ setj_at = function(DT, cols, .f, ...) {
     ))
   }
 
-  assert_function(.f, args = "j")
+  # TODO: further safety checks on .f (?)
+  assert_function(.f)
 
   # TODO: create checks for `...`
 
@@ -65,14 +69,30 @@ setj_at = function(DT, cols, .f, ...) {
 }
 
 
-#
-#
-#
-#
-#
-# setj_if = function(DT, .p, .f, ...) {
-#
-# }
+
+
+#' @rdname setj
+#'
+#' @importFrom checkmate assert_data_table assert_function
+#' @importFrom data.table set
+#'
+#' @export
+setj_if = function(DT, .p, .f, ...) {
+  assert_data_table(DT)
+  assert_function(.p)
+  assert_function(.f)
+
+  # TODO: safety checks on .p (?)
+  ptrue = vapply(DT, .p, logical(1L))
+  cols = names(which(ptrue))
+
+  for (j in cols) {
+    set(DT, j = j, value = .f(DT[[j]], ...))
+  }
+}
+
+
+
 #
 # setj_grep = function(DT, pattern, .f, ...) {
 #
