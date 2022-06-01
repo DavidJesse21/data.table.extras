@@ -4,3 +4,17 @@ use_test = function(name, open = TRUE) {
   fs::file_create(test_file)
   if (open) fs::file_show(test_file)
 }
+
+# Document and test the package.
+doc_detach_test = function(pkgdir = getwd()) {
+  roxygen2::roxygenize(pkgdir)
+
+  loaded_pkgs = names(utils::sessionInfo()$otherPkgs)
+  if (!is.null(loaded_pkgs)) {
+    invisible(lapply(
+      paste0("package:", loaded_pkgs), detach, character.only = TRUE
+    ))
+  }
+
+  tinytest::build_install_test(pkgdir)
+}

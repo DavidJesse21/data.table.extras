@@ -24,7 +24,7 @@ mapvalues = function(x, from, to) {
     stop("Vectors `from` and `to` must have the same length.")
   }
 
-  if (!setequal(unique(x), from)) {
+  if (!all(unique(x) %in% from)) {
     stop("`from` must cover all unique values in `x`.")
   }
 
@@ -37,4 +37,3 @@ mapvalues = function(x, from, to) {
   mapidx = match(x, from)
   to[mapidx]
 }
-
