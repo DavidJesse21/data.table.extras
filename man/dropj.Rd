@@ -27,6 +27,10 @@ a logical vector.}
 \item{pattern}{(\code{character(1)})\cr
 A regular expression pattern as used by \code{grep()}.}
 }
+\value{
+(\code{data.table::data.table()})\cr
+The functions invisibly return the modified \code{data.table}.
+}
 \description{
 These functions drop columns of your \code{data.table} by reference
 based on a selection of columns, a predicate function or a regex pattern that the

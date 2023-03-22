@@ -53,5 +53,16 @@ expect_message(
 )
 expect_equal(dt2, dt1)
 
-rm(dt1, dt2, dt_check)
+# Invisible return and chaining works
+dt3 = data.table::copy(dt_check)
+expect_true(
+  inherits(setj_grep(dt1, "^a", function(x) x + 10L), "data.table")
+)
+
+dt4 = data.table::copy(dt_check)
+dt4 = setj_grep(dt1, "^a", function(x) x + 10L)[1:3]
+expect_equal(nrow(dt4), 3)
+
+
+rm(dt_check, df_test, dt1, dt2, dt3, dt4)
 

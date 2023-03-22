@@ -50,7 +50,6 @@ expect_equal(dt1[[1]], 2:6)
 expect_equal(dt1[[2]], 2:6)
 expect_equal(dt1[[3]], 1:5)
 expect_equal(dt1[[4]], 1:5)
-rm(dt1)
 
 dt2 = data.table::copy(dt_check)
 setj_at(dt2, c("a", "c"), function(x) x + 1)
@@ -58,7 +57,16 @@ expect_equal(dt2[["a"]], 2:6)
 expect_equal(dt2[["c"]], 2:6)
 expect_equal(dt2[["b"]], 1:5)
 expect_equal(dt2[["b"]], 1:5)
-rm(dt2)
+
+# Invisible return and chaining works
+dt3 = data.table::copy(dt_check)
+expect_true(
+  inherits(setj_at(dt3, c("a", "c"), function(x) x + 1), "data.table")
+)
+
+dt4 = data.table::copy(dt_check)
+dt4 = setj_at(dt4, c("a", "c"), function(x) x + 1)[1:3]
+expect_equal(nrow(dt4), 3)
 
 
-rm(dt_check)
+rm(dt_check, dt1, dt2, dt3, dt4)

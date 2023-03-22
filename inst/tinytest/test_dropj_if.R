@@ -43,4 +43,15 @@ dropj_if(dt4, is.factor)
 # receive a message
 expect_message(dropj_if(dt4, is.factor))
 
-rm(dt1, dt2, dt3, dt4, dt_check, df_test)
+# Invisible return and chaining works
+dt5 = data.table::copy(dt_check)
+expect_true(
+  inherits(dropj_if(dt5, is.factor), "data.table")
+)
+
+dt6 = data.table::copy(dt_check)
+dt6 = dropj_if(dt6, is.factor)[1:10]
+expect_equal(nrow(dt6), 10)
+
+
+rm(dt_check, df_test, dt1, dt2, dt3, dt4, dt5, dt6)

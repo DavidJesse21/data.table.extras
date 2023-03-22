@@ -35,6 +35,9 @@
 #' @param pattern (`character(1)`)\cr
 #'   A regular expression pattern as used by `grep()`.
 #'
+#' @return (`data.table::data.table()`)\cr
+#'   The functions invisibly return the modified `data.table`.
+#'
 #' @importFrom data.table set
 #' @importFrom checkmate assert_data_table assert_function
 #'
@@ -75,7 +78,7 @@ setj_at = function(DT, cols, .f, ...) {
     set(DT, j = j, value = .f(DT[[j]], ...))
   }
 
-  invisible()
+  return(invisible(DT))
 }
 
 
@@ -104,7 +107,7 @@ setj_if = function(DT, .p, .f, ...) {
     }
   }
 
-  invisible()
+  return(invisible(DT))
 }
 
 
@@ -132,7 +135,7 @@ setj_grep = function(DT, pattern, .f, ...) {
     }
   }
 
-  invisible()
+  return(invisible(DT))
 }
 
 

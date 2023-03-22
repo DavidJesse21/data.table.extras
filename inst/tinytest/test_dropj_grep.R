@@ -29,4 +29,16 @@ expect_true(all(
 dt2 = data.table::copy(dt_check)
 expect_message(dropj_grep(dt2, "^sepal_"))
 
-rm(dt1, dt2, df_test)
+# Invisible return and chaining works
+dt3 = data.table::copy(dt_check)
+expect_true(
+  inherits(dropj_grep(dt3, "^Sepal"), "data.table")
+)
+
+dt4 = data.table::copy(dt_check)
+dt4 = dropj_grep(dt4, "^Sepal")[1:10]
+expect_true(inherits(dt4, "data.table"))
+expect_equal(nrow(dt4), 10)
+
+
+rm(dt_check, df_test, dt1, dt2, dt3, dt4)

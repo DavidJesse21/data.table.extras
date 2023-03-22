@@ -34,4 +34,16 @@ expect_true(all(
   c("Petal.Length", "Petal.Width", "Species") %in% colnames(dt2)
 ))
 
-rm(dt1, dt2, dt_check, df_test)
+# Invisible return and chaining works
+dt3 = data.table::copy(dt_check)
+expect_true(
+  inherits(dropj_at(dt3, c("Sepal.Length", "Sepal.Width")), "data.table")
+)
+
+dt4 = data.table::copy(dt_check)
+dt4 = dropj_at(dt4, c("Sepal.Length", "Sepal.Width"))[1:10]
+expect_true(inherits(dt4, "data.table"))
+expect_equal(nrow(dt4), 10)
+
+
+rm(dt1, dt2, dt3, dt4, dt_check, df_test)
