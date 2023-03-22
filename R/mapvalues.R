@@ -39,5 +39,5 @@ mapvalues = function(x, from, to) {
   }
 
   mapidx = match(x, from)
-  to[mapidx]
+  return(to[mapidx])
 }

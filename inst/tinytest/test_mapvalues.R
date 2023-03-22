@@ -1,31 +1,31 @@
 # Map from numbers to character
 numbers = c(rep(1L, 5), rep(2L, 3), rep(3L, 10), rep(2L, 2))
-res     = mapvalues(numbers, 1:3, c("very good", "good", "ok"))
+out = mapvalues(numbers, 1:3, c("very good", "good", "ok"))
 expect_equal(
-  res,
+  out,
   c(rep("very good", 5), rep("good", 3), rep("ok", 10), rep("good", 2))
 )
 
 # inputs `from` and `to` cover more values than there are in `x`.
-res     = mapvalues(numbers, 1:4, c("very good", "good", "ok", "one more"))
+out = mapvalues(numbers, 1:4, c("very good", "good", "ok", "one more"))
 expect_equal(
-  res,
+  out,
   c(rep("very good", 5), rep("good", 3), rep("ok", 10), rep("good", 2))
 )
 
 
 # Map from character to character
 chrs = c(rep(letters[1], 5), rep(letters[2], 3), rep(letters[3], 2), letters[1])
-res  = mapvalues(chrs, letters[1:3], c("very good", "good", "ok"))
+out = mapvalues(chrs, letters[1:3], c("very good", "good", "ok"))
 expect_equal(
-  res,
+  out,
   c(rep("very good", 5), rep("good", 3), rep("ok", 2), "very good")
 )
 
 # Recode factor levels
 fctrs = factor(letters)
-res   = mapvalues(fctrs, letters, LETTERS)
-expect_equal(levels(res), LETTERS)
+out = mapvalues(fctrs, letters, LETTERS)
+expect_equal(levels(out), LETTERS)
 
 
 
