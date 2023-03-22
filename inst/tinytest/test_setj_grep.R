@@ -6,25 +6,35 @@ dt_check = data.table::data.table(
 )
 
 
-# Test basic sanity checks
+# Test sanity checks ----
+
+# `DT` must be a data.table
+df_test = iris
+expect_error(
+  setj_grep(df_test, "^Sepal", function(x) x / 2)
+)
 expect_error(
   setj_grep(data.frame(a = 1), "^a", as.character)
 )
+
+# `pattern` must be a string
 expect_error(
   setj_grep(dt_check, c("^a", "a$"), as.character)
 )
 expect_error(
   setj_grep(dt_check, 1L, as.character)
 )
+
+# `.f` must be a function object
 expect_error(
   setj_grep(dt_check, "^a", "as.character")
 )
 
 
-# Test basic functionality
+# Test functionality ----
 dt1 = data.table::copy(dt_check)
 
-setj_grep(dt1, "^a", function(j) j + 10L)
+setj_grep(dt1, "^a", function(x) x + 10L)
 expect_equal(dt1[, aa], 11:15)
 expect_equal(dt1[, ab], 11:15)
 expect_equal(dt1[, bd], 1:5)

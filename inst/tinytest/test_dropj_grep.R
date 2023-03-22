@@ -1,12 +1,21 @@
 dt_check = data.table::as.data.table(iris)
 
-# Test sanity checks
-expect_error(dropj_grep(dt_check, c("first", "second")))
+# Test sanity checks ----
+
+# `DT` needs to be a data.table
+df_test = iris
+expect_error(dropj_grep(df_test, "^Sepal"))
 expect_error(
   dropj_grep(list(a = 1, b = 2,), "a")
 )
 
-# Test functionality
+# `pattern` must be a string (i.e. character vector of length one)
+expect_error(dropj_grep(dt_check, c("^Sepal", "^Petal")))
+expect_error(dropj_grep(dt_check, 3L))
+
+
+# Test normal functionality ----
+
 dt1 = data.table::copy(dt_check)
 dropj_grep(dt1, "^Sepal")
 expect_false(any(
@@ -20,4 +29,4 @@ expect_true(all(
 dt2 = data.table::copy(dt_check)
 expect_message(dropj_grep(dt2, "^sepal_"))
 
-rm(dt1, dt2)
+rm(dt1, dt2, df_test)

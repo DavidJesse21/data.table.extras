@@ -25,7 +25,7 @@
 #' @param pattern (`character(1)`)\cr
 #'   A regular expression pattern as used by `grep()`.
 #'
-#' @importFrom checkmate assert_data_table test_character test_integer
+#' @importFrom checkmate assert_data_table test_names test_integerish
 #'    assert_function assert_string
 #' @importFrom data.table set
 #'
@@ -41,47 +41,28 @@ NULL
 dropj_at = function(DT, cols) {
   assert_data_table(DT)
 
-  if (!(test_character(cols) | test_integer(cols, lower = 1L))) {
+  if (!(
+    test_names(cols, type =  "unique", subset.of = colnames(DT)) ||
+    test_integerish(cols, lower = 1L, upper = ncol(DT), unique = TRUE)
+  )) {
     stop(paste0(
       "\n",
       "`cols` must be either a character vector of column names ",
-      "or an integer vector of valid (positive) column indices."
+      "or an integerish vector of valid column indices."
     ))
   }
 
-  if (is.integer(cols)) {
-    type = "int"
-    col_idx = 1:ncol(DT)
-    invalid = cols[!(cols %in% col_idx)]
-    cols = setdiff(cols, invalid)
-    cols = sort(cols, decreasing = TRUE)
-  }
-
-  if (is.character(cols)) {
-    type = "chr"
-    col_names = colnames(DT)
-    invalid = cols[!(cols %in% col_names)]
-    cols = setdiff(cols, invalid)
+  if (is.numeric(cols)) {
+    # For the `set()` function, columns should be actual integers and not only integerish.
+    # Drop columns with the larger index first.
+    cols = sort(
+      as.integer(cols),
+      decreasing = TRUE
+    )
   }
 
   for (j in cols) {
     set(DT, j = j, value = NULL)
-  }
-
-  if (!is_empty(invalid)) {
-    switch(
-      type,
-      int = message(
-        "Columns with indices ",
-        "[", paste0(invalid, collapse = ", "), "]",
-        " didn't exist and have been ignored."
-      ),
-      chr = message(
-        "Columns ",
-        "[", paste0(sprintf("`%s`", invalid), collapse = ", "), "]",
-        " didn't exist and have been ignored."
-      )
-    )
   }
 
   invisible()
@@ -102,7 +83,7 @@ dropj_if = function(DT, .p) {
   if (is_empty(cols)) {
     message(
       "`.p` returns FALSE for all columns. ",
-      "No columns will be dropped."
+      "No columns have been dropped."
     )
   } else {
     for (j in cols) {
@@ -126,7 +107,7 @@ dropj_grep = function(DT, pattern) {
   if (is_empty(cols)) {
     message(
       "The supplied pattern does not match any column names. ",
-      "Your data.table remains unchanged."
+      "No columns have been dropped."
     )
   } else {
     for (j in cols) {

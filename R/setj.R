@@ -45,17 +45,20 @@ NULL
 
 #' @rdname setj
 #'
-#' @importFrom checkmate test_character test_integer
+#' @importFrom checkmate test_names test_integerish
 #'
 #' @export
 setj_at = function(DT, cols, .f, ...) {
   assert_data_table(DT)
 
-  if (!(test_character(cols) || test_integer(cols, lower = 1L))) {
+  if (!(
+    test_names(cols, type =  "unique", subset.of = colnames(DT)) ||
+    test_integerish(cols, lower = 1L, upper = ncol(DT), unique = TRUE)
+  )) {
     stop(paste0(
       "\n",
       "`cols` must be either a character vector of column names ",
-      "or an integer vector of valid (positive) column indices."
+      "or an integerish vector of valid column indices."
     ))
   }
 
@@ -64,38 +67,12 @@ setj_at = function(DT, cols, .f, ...) {
 
   # TODO: create checks for `...`
 
-  if (is.integer(cols)) {
-    type = "int"
-    col_idx = 1:ncol(DT)
-    invalid = cols[!(cols %in% col_idx)]
-    cols = setdiff(cols, invalid)
-  }
-
-  if (is.character(cols)) {
-    type = "chr"
-    col_names = colnames(DT)
-    invalid = cols[!(cols %in% col_names)]
-    cols = setdiff(cols, invalid)
+  if (is.numeric(cols)) {
+    cols = as.integer(cols)
   }
 
   for (j in cols) {
     set(DT, j = j, value = .f(DT[[j]], ...))
-  }
-
-  if (!is_empty(invalid)) {
-    switch(
-      type,
-      int = message(
-        "Columns with indices ",
-        "[", paste0(invalid, collapse = ", "), "]",
-        " don't exist and have been ignored."
-      ),
-      chr = message(
-        "Columns ",
-        "[", paste0(sprintf("`%s`", invalid), collapse = ", "), "]",
-        " don't exist and have been ignored."
-      )
-    )
   }
 
   invisible()

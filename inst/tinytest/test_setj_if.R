@@ -4,23 +4,33 @@ dt_check = data.table::data.table(
   c = letters[1:5]
 )
 
-# Test basic sanity checks
+# Test sanity checks ----
+
+# `DT` must be a data.table
 expect_error(
-  setj_if(data.frame(a = 1:3), is.integer, function(j) j + 1)
-)
-expect_error(
-  setj_if(dt_check, "is.integer", function(j) j + 1)
+  setj_if(data.frame(a = 1:3), is.integer, function(x) x + 1)
 )
 
-# Test basic functionality
+# `.p` must be a function object
+expect_error(
+  setj_if(dt_check, "is.integer", function(x) x + 1)
+)
+
+# `.f` must be a function object
+expect_error(
+  setj_if(dt_check, is.integer, "as.character")
+)
+
+
+# Test functionality ----
 dt1 = data.table::copy(dt_check)
 
-setj_if(dt1, is.integer, function(j) j + 10L)
+setj_if(dt1, is.integer, function(x) x + 10L)
 expect_equal(dt1[, a], 11:15)
 expect_equal(dt1[, b], 16:20)
 expect_equal(dt1[, c], letters[1:5])
 
-setj_if(dt1, is.integer, function(j) paste0("Number: ", j))
+setj_if(dt1, is.integer, function(x) paste0("Number: ", x))
 expect_true(dt1[, is.character(a)])
 expect_true(dt1[, is.character(b)])
 expect_true(dt1[, all(startsWith(a, "Number: "))])

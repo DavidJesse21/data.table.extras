@@ -7,6 +7,12 @@ use_test = function(name, open = TRUE) {
 
 # Document and test the package.
 doc_detach_test = function(pkgdir = getwd()) {
+  rm(
+    list = setdiff(ls(envir = .GlobalEnv), c("use_test", "doc_detach_test")),
+    envir = .GlobalEnv
+  )
+
+
   roxygen2::roxygenize(pkgdir)
 
   loaded_pkgs = names(utils::sessionInfo()$otherPkgs)
@@ -15,6 +21,12 @@ doc_detach_test = function(pkgdir = getwd()) {
       paste0("package:", loaded_pkgs), detach, character.only = TRUE
     ))
   }
+
+  invisible(lapply(
+    c("testthat", "data.table.extras"),
+    unloadNamespace
+  ))
+
 
   tinytest::build_install_test(pkgdir)
 }
