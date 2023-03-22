@@ -1,6 +1,6 @@
-Package: data.table.utils
+Package: data.table.extras
 Type: Package
-Title: Utility Functions for the data.table Package
+Title: Extra Functions for the data.table Package
 Version: 0.1.0
 Author: David Jesse
 Maintainer: David Jesse <david.jesse@gmx.net>
@@ -15,4 +15,4 @@ Imports:
     data.table
 Suggests: 
     tinytest
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
