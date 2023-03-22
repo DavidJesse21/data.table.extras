@@ -15,4 +15,5 @@ Imports:
     data.table
 Suggests: 
     tinytest
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

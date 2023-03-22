@@ -14,14 +14,18 @@ dropj_if(DT, .p)
 dropj_grep(DT, pattern)
 }
 \arguments{
-\item{DT}{A \code{data.table}.}
+\item{DT}{(\code{data.table::data.table()})\cr
+A \code{data.table}.}
 
-\item{cols}{A vector of integer column indices or character column names.}
+\item{cols}{(\code{character()} or \code{numeric()})\cr
+A vector of integer column indices or character column names.}
 
-\item{.p}{A predicate function that will be applied to all columns and returns
+\item{.p}{(\verb{function()})\cr
+A predicate function that will be applied to all columns and returns
 a logical vector.}
 
-\item{pattern}{A regular expression pattern as used by \code{grep}.}
+\item{pattern}{(\code{character(1)})\cr
+A regular expression pattern as used by \code{grep()}.}
 }
 \description{
 These functions drop columns of your \code{data.table} by reference

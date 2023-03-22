@@ -7,19 +7,23 @@
 mapvalues(x, from, to)
 }
 \arguments{
-\item{x}{A vector.}
+\item{x}{(\code{any})\cr
+A vector.}
 
-\item{from}{A vector specifying the values that should be mapped.}
+\item{from}{(\code{any})\cr
+A vector specifying the values that should be mapped.}
 
-\item{to}{A vector specifying the values to map to.}
+\item{to}{(\code{any})\cr
+A vector specifying the values to map to.}
 }
 \value{
+(\code{any})\cr
 A vector. It may be of a different type than the input vector \code{x},
-   depending on your inputs for \code{from} and \code{to}.
+depending on your inputs for \code{from} and \code{to}.
 }
 \description{
 This is basically a copy or reimplementation of the
-   \code{plyr::mapvalues()} function.
-   It takes an input vector \code{x} as well as two vectors \code{from} and
-   \code{to} that act as a dictionary for the mapping.
+\code{plyr::mapvalues()} function.
+It takes an input vector \code{x} as well as two vectors \code{from} and
+\code{to} that act as a dictionary for the mapping.
 }

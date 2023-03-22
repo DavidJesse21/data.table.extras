@@ -1,25 +1,29 @@
 #' Drop columns conditionally by reference
 #'
 #' @description
-#' These functions drop columns of your \code{data.table} by reference
+#' These functions drop columns of your `data.table` by reference
 #' based on a selection of columns, a predicate function or a regex pattern that the
 #' column name must match.
 #'
 #' @details
-#' \code{dropj_at()} drops column based on a vector of column indices or column names.
+#' `dropj_at()` drops column based on a vector of column indices or column names.
 #'
-#' \code{dropj_if()} takes predicate function \code{.p} as an input that will
+#' `dropj_if()` takes predicate function `.p` as an input that will
 #' be applied to each of the columns and returns a logical vector.
-#' It will then drop those columns for which the function returns \code{TRUE}.
+#' It will then drop those columns for which the function returns `TRUE`.
 #'
-#' \code{dropj_grep()} takes a regex pattern as input and will check if the
+#' `dropj_grep()` takes a regex pattern as input and will check if the
 #' column names match that pattern. If so, they will be dropped.
 #'
-#' @param DT A \code{data.table}.
-#' @param cols A vector of integer column indices or character column names.
-#' @param .p A predicate function that will be applied to all columns and returns
-#'    a logical vector.
-#' @param pattern A regular expression pattern as used by \code{grep}.
+#' @param DT (`data.table::data.table()`)\cr
+#'   A `data.table`.
+#' @param cols (`character()` or `numeric()`)\cr
+#'   A vector of integer column indices or character column names.
+#' @param .p (`function()`)\cr
+#'   A predicate function that will be applied to all columns and returns
+#'   a logical vector.
+#' @param pattern (`character(1)`)\cr
+#'   A regular expression pattern as used by `grep()`.
 #'
 #' @importFrom checkmate assert_data_table test_character test_integer
 #'    assert_function assert_string

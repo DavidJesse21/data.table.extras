@@ -1,16 +1,20 @@
 #' Replace values of a vector based on a mapping scheme.
 #'
 #' @description This is basically a copy or reimplementation of the
-#'    \code{plyr::mapvalues()} function.
-#'    It takes an input vector \code{x} as well as two vectors \code{from} and
-#'    \code{to} that act as a dictionary for the mapping.
+#'   \code{plyr::mapvalues()} function.
+#'   It takes an input vector \code{x} as well as two vectors \code{from} and
+#'   \code{to} that act as a dictionary for the mapping.
 #'
-#' @param x A vector.
-#' @param from A vector specifying the values that should be mapped.
-#' @param to A vector specifying the values to map to.
+#' @param x (`any`)\cr
+#'   A vector.
+#' @param from (`any`)\cr
+#'   A vector specifying the values that should be mapped.
+#' @param to (`any`)\cr
+#'   A vector specifying the values to map to.
 #'
-#' @return A vector. It may be of a different type than the input vector \code{x},
-#'    depending on your inputs for \code{from} and \code{to}.
+#' @return (`any`)\cr
+#'   A vector. It may be of a different type than the input vector `x`,
+#'   depending on your inputs for `from` and `to`.
 #'
 #' @importFrom checkmate assert_atomic_vector
 #'

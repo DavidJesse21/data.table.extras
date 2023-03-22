@@ -14,18 +14,23 @@ setj_if(DT, .p, .f, ...)
 setj_grep(DT, pattern, .f, ...)
 }
 \arguments{
-\item{DT}{A \code{data.table}}
+\item{DT}{(\code{data.table::data.table()})\cr
+A \code{data.table}.}
 
-\item{cols}{A vector of integer column indices or character column names}
+\item{cols}{(\code{numeric()} or \code{character()})\cr
+A vector of integer column indices or character column names.}
 
-\item{.f}{A function that will be applied by reference to the matching columns}
+\item{.f}{(\verb{function()})\cr
+A function that will be applied by reference to the matching columns}
 
-\item{...}{Additional function arguments you want to supply to \code{.f}}
+\item{...}{Additional function arguments you want to supply to \code{.f}.}
 
-\item{.p}{A predicate function that will be applied to all columns and returns
-a logical vector}
+\item{.p}{(\verb{function()})\cr
+A predicate function that will be applied to all columns and returns
+a logical vector.}
 
-\item{pattern}{A regular expression pattern as used by \code{grep}}
+\item{pattern}{(\code{character(1)})\cr
+A regular expression pattern as used by \code{grep()}.}
 }
 \description{
 These functions manipulate existing columns of your \code{data.table} by reference
@@ -40,7 +45,7 @@ you will get an informative message.
 
 \code{setj_if()} takes a predicate function as input for \code{.p}.
 The function \code{.f} will then be applied to those columns for which
-\code{.p} returns TRUE.
+\code{.p} returns \code{TRUE}.
 If the predicate function returns \code{FALSE} for all columns you will get an
 informative message.
 
